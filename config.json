@@ -1,0 +1,7 @@
+{
+  "config": {
+    "accesskey":"$AWS_ACCESS_KEY",
+    "secret":"$AWS_SECRET",
+    "bucket":"$AWS_BUCKET"
+  }
+}
