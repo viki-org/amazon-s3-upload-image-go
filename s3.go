@@ -16,22 +16,16 @@ import (
 var (
 	S3Bucket            *s3.Bucket
 	originalUploadImage = uploadImage
-
 	errorDetectingExtension = errors.New(`unable to determine file extensions`)
 )
 
-func init() {
-	setupS3Connection()
-}
-
-func setupS3Connection() {
-	config := GetConfig()
-	auth, err := aws.GetAuth(config.AccessKey, config.Secret, ``, time.Time{})
+func SetupS3Connection(accessKey string, secret string, bucket string) {
+	auth, err := aws.GetAuth(accessKey, secret, ``, time.Time{})
 	if err != nil {
 		log.Fatal(err)
 	}
 	conn := s3.New(auth, aws.USEast) // our S3 is only accessible from USEast (east-1) region
-	S3Bucket = conn.Bucket(config.Bucket)
+	S3Bucket = conn.Bucket(bucket)
 }
 
 func UploadImage(data, userID string) (string, error) {
