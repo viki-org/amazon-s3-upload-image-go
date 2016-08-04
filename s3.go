@@ -23,12 +23,13 @@ func (helper *S3UploadImageHelper) SetupS3Connection(config []string) (e error){
 	if len(config) < 3 {
 		return errorInvalidConfig
 	}
-	auth, err := aws.GetAuth(config[0], config[1], ``, time.Time{})
+	accessKey, secret, bucket := config[0], config[1], config[2]
+	auth, err := aws.GetAuth(accessKey, secret, ``, time.Time{})
 	if err != nil {
 		return err
 	}
 	conn := s3.New(auth, aws.USEast) // our S3 is only accessible from USEast (east-1) region
-	S3Bucket = conn.Bucket(config[2])
+	S3Bucket = conn.Bucket(bucket)
 	return nil
 }
 
